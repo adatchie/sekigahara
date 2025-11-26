@@ -118,6 +118,9 @@ export class KamonDrawer {
             case 'MARUNI_MITSUMEBISHI': // 丸に三つ目菱（赤座）
                 this.drawMaruniMitsumebishi(ctx, size);
                 break;
+            case 'KANI': // 蟹（寺沢）
+                this.drawKani(ctx, size);
+                break;
             default:
                 this.drawDefault(ctx, size);
                 break;
@@ -1104,5 +1107,71 @@ export class KamonDrawer {
 
             ctx.restore();
         });
+    }
+
+    /**
+     * 蟹（寺沢広高）
+     */
+    static drawKani(ctx, size) {
+        ctx.fillStyle = '#fff';
+
+        // 体（中央の楺円）
+        ctx.beginPath();
+        ctx.ellipse(0, size * 0.1, size * 0.5, size * 0.35, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 眼（2つの小さな丸）
+        ctx.beginPath();
+        ctx.arc(-size * 0.2, -size * 0.15, size * 0.08, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(size * 0.2, -size * 0.15, size * 0.08, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 左のハサミ
+        ctx.save();
+        ctx.translate(-size * 0.45, -size * 0.1);
+        ctx.rotate(-0.3);
+        // ハサミの上部
+        ctx.beginPath();
+        ctx.ellipse(0, -size * 0.25, size * 0.15, size * 0.25, -0.5, 0, Math.PI * 2);
+        ctx.fill();
+        // ハサミの下部
+        ctx.beginPath();
+        ctx.ellipse(0, size * 0.25, size * 0.15, size * 0.25, 0.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 右のハサミ
+        ctx.save();
+        ctx.translate(size * 0.45, -size * 0.1);
+        ctx.rotate(0.3);
+        // ハサミの上部
+        ctx.beginPath();
+        ctx.ellipse(0, -size * 0.25, size * 0.15, size * 0.25, 0.5, 0, Math.PI * 2);
+        ctx.fill();
+        // ハサミの下部
+        ctx.beginPath();
+        ctx.ellipse(0, size * 0.25, size * 0.15, size * 0.25, -0.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // 脚（左側に3本）
+        for (let i = 0; i < 3; i++) {
+            ctx.save();
+            ctx.translate(-size * 0.3, size * 0.1 + (i * size * 0.15));
+            ctx.rotate(-0.6 - (i * 0.2));
+            ctx.fillRect(0, -size * 0.05, size * 0.35, size * 0.08);
+            ctx.restore();
+        }
+
+        // 脚（右側に3本）
+        for (let i = 0; i < 3; i++) {
+            ctx.save();
+            ctx.translate(size * 0.3, size * 0.1 + (i * size * 0.15));
+            ctx.rotate(0.6 + (i * 0.2));
+            ctx.fillRect(-size * 0.35, -size * 0.05, size * 0.35, size * 0.08);
+            ctx.restore();
+        }
     }
 }

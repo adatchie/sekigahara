@@ -68,7 +68,7 @@ export const WARLORDS = [
     { name: "田中吉政", side: 'EAST', soldiers: 3000, atk: 80, def: 80, jin: 75, loyalty: 85, q: 32, r: 28, size: 1, p: P_LOYAL, kamon: 'KUGINUKI', bg: '#444' },
     { name: "藤堂高虎", side: 'EAST', soldiers: 2490, atk: 85, def: 85, jin: 85, loyalty: 88, q: 30, r: 30, size: 1, p: P_CALM, kamon: 'TSUTA', bg: '#555' },
     { name: "京極高知", side: 'EAST', soldiers: 3000, atk: 78, def: 75, jin: 70, loyalty: 85, q: 28, r: 32, size: 1, p: P_LOYAL, kamon: 'FOUR_DIAMONDS', bg: '#666' },
-    { name: "寺沢広高", side: 'EAST', soldiers: 2400, atk: 75, def: 75, jin: 70, loyalty: 80, q: 26, r: 34, size: 1, p: P_CALM, kamon: 'DEFAULT', bg: '#666' },
+    { name: "寺沢広高", side: 'EAST', soldiers: 2400, atk: 75, def: 75, jin: 70, loyalty: 80, q: 26, r: 34, size: 1, p: P_CALM, kamon: 'KANI', bg: '#666' },
     { name: "筒井定次", side: 'EAST', soldiers: 2850, atk: 75, def: 75, jin: 70, loyalty: 80, q: 34, r: 26, size: 1, p: P_CALM, kamon: 'UMEBACHI', bg: '#666' },
     { name: "生駒一正", side: 'EAST', soldiers: 1830, atk: 75, def: 70, jin: 65, loyalty: 80, q: 24, r: 36, size: 1, p: P_LOYAL, kamon: 'GENJI_GURUMA', bg: '#666' },
     { name: "金森長近", side: 'EAST', soldiers: 1140, atk: 70, def: 70, jin: 60, loyalty: 85, q: 22, r: 38, size: 1, p: P_LOYAL, kamon: 'UMEBACHI', bg: '#666' },
