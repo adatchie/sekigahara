@@ -99,12 +99,12 @@ export const WARLORDS = [
 
     // --- 不確定勢力（松尾山）---
     { name: "小早川秀秋", side: 'WEST', soldiers: 15600, atk: 85, def: 80, jin: 70, loyalty: 40, q: 5, r: 50, size: 2, p: P_COWARD, kamon: 'CHIGAI_GAMA', bg: '#a52a2a' },
-    { name: "稲葉正成", side: 'WEST', soldiers: 1000, atk: 75, def: 75, jin: 60, loyalty: 50, q: 6, r: 51, size: 1, p: P_CALM, kamon: 'DEFAULT', bg: '#888' },
+    { name: "稲葉正成", side: 'WEST', soldiers: 1000, atk: 75, def: 75, jin: 60, loyalty: 50, q: 6, r: 51, size: 1, p: P_CALM, kamon: 'OSHIKI_NI_SAN', bg: '#888' },
 
     // --- 不確定勢力（南宮山）---
     { name: "毛利秀元", side: 'WEST', soldiers: 16000, atk: 85, def: 90, jin: 80, loyalty: 70, q: 50, r: 50, size: 2, p: P_CALM, kamon: 'MITSUBOSHI', bg: '#222' },
     { name: "吉川広家", side: 'WEST', soldiers: 3000, atk: 80, def: 85, jin: 85, loyalty: 20, q: 48, r: 48, size: 1, p: P_CALM, kamon: 'MITSUBOSHI', bg: '#333' },
     { name: "安国寺恵瓊", side: 'WEST', soldiers: 1800, atk: 70, def: 70, jin: 75, loyalty: 90, q: 52, r: 48, size: 1, p: P_CALM, kamon: 'TAKEDA_BISHI', bg: '#555' },
     { name: "長宗我部盛親", side: 'WEST', soldiers: 6600, atk: 88, def: 85, jin: 80, loyalty: 80, q: 55, r: 45, size: 1, p: P_BRAVE, kamon: 'KATABAMI', bg: '#333' },
-    { name: "長束正家", side: 'WEST', soldiers: 1500, atk: 75, def: 75, jin: 70, loyalty: 90, q: 53, r: 46, size: 1, p: P_LOYAL, kamon: 'DEFAULT', bg: '#444' }
+    { name: "長束正家", side: 'WEST', soldiers: 1500, atk: 75, def: 75, jin: 70, loyalty: 90, q: 53, r: 46, size: 1, p: P_LOYAL, kamon: 'HANABISHI', bg: '#444' }
 ];

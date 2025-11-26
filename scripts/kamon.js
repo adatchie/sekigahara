@@ -106,6 +106,12 @@ export class KamonDrawer {
             case 'MITSU_UROKO': // 三つ鱗（平塚）
                 this.drawMitsuUroko(ctx, size);
                 break;
+            case 'OSHIKI_NI_SAN': // 折敷に三（稲葉）
+                this.drawOshikiNiSan(ctx, size);
+                break;
+            case 'HANABISHI': // 花菱（長束）
+                this.drawHanabishi(ctx, size);
+                break;
             default:
                 this.drawDefault(ctx, size);
                 break;
@@ -937,5 +943,67 @@ export class KamonDrawer {
             ctx.fill();
             ctx.restore();
         });
+    }
+
+    /**
+     * 折敷に三（稲葉正成）
+     */
+    static drawOshikiNiSan(ctx, size) {
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = size * 0.1;
+
+        // 折敷（四角い台）
+        ctx.beginPath();
+        ctx.rect(-size * 0.7, -size * 0.7, size * 1.4, size * 1.4);
+        ctx.stroke();
+
+        // 「三」の文字
+        ctx.fillStyle = '#fff';
+        ctx.font = `bold ${size * 0.8}px serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('三', 0, size * 0.1);
+    }
+
+    /**
+     * 花菱（長束正家）
+     */
+    static drawHanabishi(ctx, size) {
+        ctx.fillStyle = '#fff';
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = size * 0.05;
+
+        // 4つの菱形を十字に配置
+        const s = size * 0.5;
+        const positions = [
+            { x: 0, y: -s }, // 上
+            { x: s, y: 0 },  // 右
+            { x: 0, y: s },  // 下
+            { x: -s, y: 0 }  // 左
+        ];
+
+        positions.forEach(p => {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(45 * Math.PI / 180);
+
+            const w = size * 0.35;
+            ctx.beginPath();
+            ctx.rect(-w / 2, -w / 2, w, w);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.restore();
+        });
+
+        // 中心の菱形
+        ctx.save();
+        ctx.rotate(45 * Math.PI / 180);
+        const cw = size * 0.25;
+        ctx.beginPath();
+        ctx.rect(-cw / 2, -cw / 2, cw, cw);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
     }
 }
