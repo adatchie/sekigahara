@@ -375,25 +375,6 @@
                     try {
                         window.game.init();
                     } catch (e) {
-                        console.error("Init failed", e);
-                        throw e;
-                    }
-                };
-
-                // HTMLのボタンから呼び出せるようにグローバル関数を定義
-                window.startGame = (side) => {
-                    try {
-                        window.game.startGame(side);
-                    } catch (e) {
-                        console.error("StartGame failed", e);
-                        throw e;
-                    }
-                };
-
-                window.commitTurn = () => {
-                    try {
-                        window.game.commitTurn();
-                    } catch (e) {
                         console.error("CommitTurn failed", e);
                         throw e;
                     }

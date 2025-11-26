@@ -100,6 +100,7 @@ export class AudioEngine {
 
     playBGM() {
         if (this.isPlaying) return;
+        if (!this.ctx) return; // AudioContext未初期化なら何もしない
         this.isPlaying = true;
         if (this.ctx.state === 'suspended') this.ctx.resume();
         this.tick = 0;
