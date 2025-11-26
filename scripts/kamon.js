@@ -566,6 +566,39 @@ export class KamonDrawer {
         ctx.closePath();
         ctx.fill();
         ctx.restore();
+    }
+    /**
+     * 対い蝶（大谷吉継）
+     */
+    static drawMukaiCho(ctx, size) {
+        ctx.fillStyle = '#000';
+        // 2つの蝶が向かい合うシルエット
+        for (let i = 0; i < 2; i++) {
+            ctx.save();
+            ctx.scale(i === 0 ? 1 : -1, 1);
+            ctx.translate(size * 0.2, 0);
+
+            // 羽
+            ctx.beginPath();
+            ctx.ellipse(0, -size * 0.2, size * 0.3, size * 0.2, -0.2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(0, size * 0.2, size * 0.25, size * 0.15, 0.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 触角
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = size * 0.05;
+            ctx.beginPath();
+            ctx.moveTo(-size * 0.1, -size * 0.3);
+            ctx.quadraticCurveTo(-size * 0.2, -size * 0.5, 0, -size * 0.6);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    }
+
+    /**
      * 三つ柏（島左近）
      */
     static drawMitsuGashiwa(ctx, size) {
