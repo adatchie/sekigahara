@@ -12,6 +12,18 @@ export class AudioEngine {
         this.timerID = null;
         this.tick = 0;
         this.section = 0;
+        this.sfxVolume = 0.5; // SE音量
+
+        // 外部サウンドファイルのAudioオブジェクト
+        this.sounds = {
+            battle: null,
+            enemyKill: null,
+            allyKilled: null,
+            arrangementSuccess: null,
+            arrangementFail: null,
+            clear: null,
+            defeated: null
+        };
     }
 
     init() {
@@ -21,8 +33,40 @@ export class AudioEngine {
             this.masterGain = this.ctx.createGain();
             this.masterGain.gain.value = 0.3;
             this.masterGain.connect(this.ctx.destination);
+
+            // 外部SEファイルをプリロード
+            this.loadSounds();
         } catch (e) {
             console.warn('Audio initialization failed:', e);
+        }
+    }
+
+    /**
+     * 外部サウンドファイルを読み込み
+     */
+    loadSounds() {
+        this.sounds.battle = new Audio('sounds/battle.mp3');
+        this.sounds.enemyKill = new Audio('sounds/enemy_kill.mp3');
+        this.sounds.allyKilled = new Audio('sounds/ally_killed.mp3');
+        this.sounds.arrangementSuccess = new Audio('sounds/arrangement_success.mp3');
+        this.sounds.arrangementFail = new Audio('sounds/arrangement_fail.mp3');
+        this.sounds.clear = new Audio('sounds/clear.mp3');
+        this.sounds.defeated = new Audio('sounds/defeated.mp3');
+
+        // 全てのサウンドに音量を設定
+        Object.values(this.sounds).forEach(sound => {
+            if (sound) sound.volume = this.sfxVolume;
+        });
+    }
+
+    /**
+     * サウンドを再生するヘルパー関数
+     */
+    playSound(soundKey) {
+        const sound = this.sounds[soundKey];
+        if (sound) {
+            sound.currentTime = 0; // 最初から再生
+            sound.play().catch(e => console.warn(`Sound play failed: ${soundKey}`, e));
         }
     }
 
@@ -153,20 +197,11 @@ export class AudioEngine {
 
     playFanfare(win) {
         this.stopBGM();
-        this.masterGain.gain.setValueAtTime(0.4, this.ctx.currentTime);
-        const t = this.ctx.currentTime + 0.5;
-
+        // 外部SEファイルを使用
         if (win) {
-            [293, 370, 440, 587].forEach((n, i) =>
-                this.playTone(n, 'sawtooth', 0.1, 2.0, 0.2, t + i * 0.3)
-            );
-            this.instTaikoLow(t);
-            this.instTaikoLow(t + 1.2);
+            this.playSound('clear');
         } else {
-            [100, 92, 87].forEach((n, i) =>
-                this.playTone(n, 'sine', 0.5, 2.0, 0.3, t + i * 0.6)
-            );
-            this.instTaikoLow(t);
+            this.playSound('defeated');
         }
     }
 
@@ -179,33 +214,28 @@ export class AudioEngine {
         this.playTone(100, 'square', 0.05, 0.1, 0.2);
     }
 
-    // 鬨の声（戦闘開始時の雄叫び）
+    // 鬨の声（戦闘開始時）- 外部SEファイル使用
     sfxBattleCry() {
-        if (!this.ctx) return;
-        // 力強い低音と雑音で戦いの雄叫びを表現
-        this.playTone(80, 'sawtooth', 0.05, 0.3, 0.4);
-        this.playTone(120, 'square', 0.05, 0.25, 0.3);
-        this.playNoise(0.2, 0.25);
+        this.playSound('battle');
     }
 
-    // 勝利時の斬撃音（シャキーン！）
+    // 敵討ち取り時の斬撃音 - 外部SEファイル使用
     sfxVictorySlash() {
-        if (!this.ctx) return;
-        const t = this.ctx.currentTime;
-        // 高音で爽快な斬撃音
-        this.playTone(800, 'sine', 0.01, 0.15, 0.3, t);
-        this.playTone(1200, 'sine', 0.01, 0.2, 0.25, t + 0.05);
-        this.playTone(1600, 'triangle', 0.01, 0.25, 0.2, t + 0.1);
-        this.playNoise(0.1, 0.4, t);
+        this.playSound('enemyKill');
     }
 
-    // 敗北時の斬撃音（ズバッ）
+    // 味方討ち死に時の斬撃音 - 外部SEファイル使用
     sfxDefeatSlash() {
-        if (!this.ctx) return;
-        const t = this.ctx.currentTime;
-        // 低音で重々しい斬撃音
-        this.playTone(150, 'sawtooth', 0.02, 0.3, 0.5, t);
-        this.playTone(100, 'square', 0.03, 0.35, 0.4, t);
-        this.playNoise(0.25, 0.7, t);
+        this.playSound('allyKilled');
+    }
+
+    // 調略成功 - 外部SEファイル使用
+    sfxArrangementSuccess() {
+        this.playSound('arrangementSuccess');
+    }
+
+    // 調略失敗 - 外部SEファイル使用
+    sfxArrangementFail() {
+        this.playSound('arrangementFail');
     }
 }

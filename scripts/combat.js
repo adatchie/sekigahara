@@ -67,8 +67,10 @@ export class CombatSystem {
                 target.order = null;
                 target.imgCanvas = generatePortrait(target.name, target.side);
                 this.spawnText(target.pos, "寝返り！", "#0f0", 60);
+                this.audioEngine.sfxArrangementSuccess(); // 調略成功SE
             } else {
                 this.spawnText(target.pos, "失敗...", "#aaa", 40);
+                this.audioEngine.sfxArrangementFail(); // 調略失敗SE
             }
             unit.order = null;
             await this.wait(800);
@@ -211,7 +213,7 @@ export class CombatSystem {
 
         // 戦闘エフェクト: 土煙と火花を追加
         this.addEffect('DUST', def.pos, null, null);
-        this.spawnSparks(def.pos, 8); // 火花を8個生成
+        this.spawnSparks(att.pos, def.pos); // 攻撃側と防御側の間に火花
 
         this.audioEngine.sfxHit();
         await this.wait(600);
@@ -358,20 +360,33 @@ export class CombatSystem {
     }
 
     /**
-     * 火花エフェクトを生成
+     * 火花エフェクトを生成（攻撃側と防御側の間で閃く小さな光）
+     * @param {Object} attPos - 攻撃側の位置
+     * @param {Object} defPos - 防御側の位置
      */
-    spawnSparks(pos, count) {
-        for (let i = 0; i < count; i++) {
-            const angle = (Math.PI * 2 * i) / count;
-            const speed = 2 + Math.random() * 3;
+    spawnSparks(attPos, defPos) {
+        // 攻撃側と防御側の中間点
+        const midX = (attPos.x + defPos.x) / 2;
+        const midY = (attPos.y + defPos.y) / 2;
+
+        // 15個の小さな火花を中間点付近の狭い範囲に生成
+        for (let i = 0; i < 15; i++) {
+            // 中間点付近の狭い範囲（±12px）にランダムに配置
+            const offsetX = (Math.random() - 0.5) * 24;
+            const offsetY = (Math.random() - 0.5) * 24;
+
+            // ごくわずかなランダムな動き
+            const vx = (Math.random() - 0.5) * 0.5;
+            const vy = (Math.random() - 0.5) * 0.5;
+
             this.activeEffects.push({
                 type: 'SPARK',
-                x: pos.x,
-                y: pos.y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                life: 20 + Math.random() * 10,
-                maxLife: 30
+                x: midX + offsetX,
+                y: midY + offsetY,
+                vx: vx,
+                vy: vy,
+                life: 8 + Math.random() * 8,  // 短い寿命（8-16フレーム）
+                maxLife: 16
             });
         }
     }
@@ -386,11 +401,11 @@ export class CombatSystem {
             if (e.type === 'FLOAT_TEXT') {
                 e.y -= 0.5;
             } else if (e.type === 'SPARK') {
-                // 火花の物理演算
+                // 火花の物理演算（ほとんど動かない小さな閃き）
                 e.x += e.vx;
                 e.y += e.vy;
-                e.vy += 0.2; // 重力効果
-                e.vx *= 0.95; // 空気抵抗
+                e.vx *= 0.85; // 強い空気抵抗ですぐに減衰
+                e.vy *= 0.85;
             }
         });
         this.activeEffects = this.activeEffects.filter(e => e.life > 0);

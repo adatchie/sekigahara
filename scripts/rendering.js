@@ -207,24 +207,20 @@ export class RenderingEngine {
                 ctx.arc(sx, sy, 30, 0, Math.PI * 2);
                 ctx.fill();
             } else if (e.type === 'SPARK') {
-                // 火花エフェクト - 黄色/オレンジ色に輝く
+                // 火花エフェクト - 数ドット程度の小さな光の点
                 const alpha = e.life / e.maxLife;
-                const size = 3 + alpha * 2;
+                const size = 1.2 + alpha * 0.8; // 1.2～2.0ピクセルの小さな点
 
-                // 外側の光輪
-                const gradient = ctx.createRadialGradient(sx, sy, 0, sx, sy, size * 2);
-                gradient.addColorStop(0, `rgba(255, 255, 100, ${alpha * 0.8})`);
-                gradient.addColorStop(0.5, `rgba(255, 150, 0, ${alpha * 0.5})`);
-                gradient.addColorStop(1, `rgba(255, 100, 0, 0)`);
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(sx, sy, size * 2, 0, Math.PI * 2);
-                ctx.fill();
-
-                // 中心の明るい部分
-                ctx.fillStyle = `rgba(255, 255, 200, ${alpha})`;
+                // 中心の明るい光
+                ctx.fillStyle = `rgba(255, 255, 180, ${alpha})`;
                 ctx.beginPath();
                 ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 小さなグロー（控えめ）
+                ctx.fillStyle = `rgba(255, 200, 100, ${alpha * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(sx, sy, size + 1, 0, Math.PI * 2);
                 ctx.fill();
             } else if (e.type === 'WAVE') {
                 ctx.strokeStyle = `rgba(200, 0, 255, ${e.life / 40})`;
